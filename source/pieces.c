@@ -185,6 +185,7 @@ piece shape_factory(shape s){
 }
 
 
+/*
 int main(){
 
     piece p1; 
@@ -200,7 +201,6 @@ int main(){
     piece_print(p1);
     printf("\n");
 
-    /*
     points_rotate(p1, COUNTER_CLOCK_WISE);
     points_print(p1);
     printf("\n");
@@ -208,7 +208,7 @@ int main(){
     points_rotate(p1, CLOCK_WISE);
     points_print(p1);
     printf("\n");
-    */
 
     return 0;
 }
+*/

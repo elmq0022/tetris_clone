@@ -61,15 +61,3 @@ void board_clear_row(board* b, int idx){
     b->rows[idx]->total = 0;
 }
 
-int main(){
-    board b = board_initialize();
-    board_print(b);
-    printf("\n");
-
-    board_clear_row(&b, 9);
-    board_move_row_to_top(&b, 9);
-    board_print(b);
-
-    board_destroy(b);
-    return 0;
-}
