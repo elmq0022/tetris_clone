@@ -10,9 +10,7 @@
 
 #define LEFT -1
 #define RIGHT 1
-
-#define UP 1
-#define DOWN -1
+#define DOWN 1
 
 #define CLOCKWISE 1
 #define COUNTER_CLOCK_WISE 3
@@ -29,6 +27,7 @@ typedef struct {
     int x;
     int y;
     row* rows[NUM_ROWS];
+    piece* pieces;
 } board;
 
 board board_initialize();
@@ -40,6 +39,5 @@ void board_clear_row(board* b, int idx);
 int board_is_valid_move(board* b, int new_x, int new_y, int rotation);
 int board_rotate_piece(board* b, int direction);
 int board_move_piece(board* b, int x, int y);
-int board_is_valid_move();
 
 #endif

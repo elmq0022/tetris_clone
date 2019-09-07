@@ -5,7 +5,6 @@
 #define COUNTER_CLOCK_WISE 3
 #define CLOCK_WISE 1 
 
-
 enum colors {RED=1, YELLOW, BLUE, GREEN, ORANGE, PURPLE};
 
 typedef struct{
@@ -286,8 +285,3 @@ piece p[NUM_PIECES] = {
         .color = RED,
     },
 };
-
-// int main(){
-//     piece_print(p[1], 0);
-//     return 0;
-// }

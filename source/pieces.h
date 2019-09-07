@@ -8,10 +8,13 @@
 
 enum colors {RED=1, YELLOW, BLUE, GREEN, ORANGE, PURPLE};
 
+
 typedef struct{
     enum colors color;
     int rotations[NUM_ROTATITIONS][SIZE][SIZE];
 } piece;
+
+extern piece p[NUM_PIECES];
 
 typedef enum {
     I=0, J, L, O, S, T, Z
@@ -19,5 +22,4 @@ typedef enum {
 
 void piece_print(piece p, int r);
 
-piece p[NUM_PIECES];
 #endif

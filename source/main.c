@@ -7,15 +7,14 @@ int main(){
     board b = board_initialize();
     board_print(b);
     printf("\n");
-    
-    /*
-    piece p = piece_factory(I);
-    piece_print(p);
+
+    piece_print(b.pieces[b.piece], b.rotation);
     printf("\n");
 
-    p = piece_rotate(p, CLOCK_WISE);
-    piece_print(p);
-    printf("\n");
-    */
+    int x, y;
+    x = y = 0;
+
+    printf("x: %d y: %d valid: %d \n", x, y, board_is_valid_move(&b, x, y, 0));
+    
     return 0;
 }

@@ -5,6 +5,9 @@
 #define NUM_COLUMNS 10+PADDING+PADDING
 #define NUM_ROWS 20+PADDING+PADDING
 
+#define LEFT -1
+#define RIGHT 1
+#define DOWN 1
 
 typedef struct {
    int cells[NUM_COLUMNS];
@@ -18,6 +21,7 @@ typedef struct {
     int x;
     int y;
     row* rows[NUM_ROWS];
+    piece* pieces;
 } board;
 
 board board_initialize(){
@@ -28,6 +32,7 @@ board board_initialize(){
     b.rotation = 0;
     b.x = NUM_COLUMNS/2 - SIZE/2;
     b.y = 0;
+    b.pieces = p;
     
     for(int i=0; i<NUM_ROWS; i++){
         b.rows[i] = (row*) malloc(sizeof(row));
@@ -82,7 +87,28 @@ void board_clear_row(board* b, int idx){
     b->rows[idx]->total = 0;
 }
 
-int board_is_valid_move(board* b, int new_x, int new_y, int rotation){
+int board_is_valid_move(board* b, int x, int y, int rotation){
+    // check left and right of board
+    if(x < 0 || NUM_COLUMNS-SIZE-1 < x){
+        return 0;
+    }
+
+    // check up and down of board
+    if(y < 0 || NUM_COLUMNS-SIZE-1 < y){
+        return 0;
+    }
+
+    // check for intersections between board and piece
+    for(int i=0; i < SIZE; i++){
+        for(int j=0; j < SIZE; j++){
+            if(b->rows[i+y]->cells[j+x] == 1 && 
+               b->pieces[b->piece].rotations[rotation][i][j] == 1
+            ){
+                return 0;
+            }
+        }
+    }
+
     return 1;
 }
 
