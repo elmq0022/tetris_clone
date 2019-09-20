@@ -30,7 +30,7 @@ board board_initialize(){
     b.piece = 0;
     b.next_piece = 0;
     b.rotation = 0;
-    b.x = NUM_COLUMNS/2 - SIZE/2;
+    b.x = (NUM_COLUMNS)/2 - (SIZE)/2;
     b.y = 0;
     b.pieces = p;
     
@@ -84,17 +84,18 @@ void board_clear_row(board* b, int idx){
     for(int i=PADDING; i<NUM_COLUMNS-PADDING; i++){
         b->rows[idx]->cells[i] = 0;
     }
-    b->rows[idx]->total = 0;
 }
 
 int board_is_valid_move(board* b, int x, int y, int rotation){
     // check left and right of board
     if(x < 0 || NUM_COLUMNS-SIZE-1 < x){
+        printf("failed for x size \n");
         return 0;
     }
 
     // check up and down of board
-    if(y < 0 || NUM_COLUMNS-SIZE-1 < y){
+    if(y < 0 || NUM_ROWS-SIZE-1 < y){
+        printf("failed for y size \n");
         return 0;
     }
 
@@ -104,6 +105,7 @@ int board_is_valid_move(board* b, int x, int y, int rotation){
             if(b->rows[i+y]->cells[j+x] == 1 && 
                b->pieces[b->piece].rotations[rotation][i][j] == 1
             ){
+                printf("failed for intersecting with the board \n");
                 return 0;
             }
         }
@@ -132,4 +134,35 @@ int board_move_piece(board* b, int x, int y){
         return 1;
     }
     return 0;
+}
+
+int board_set_piece(board* b){
+    // copy the pieces to the board
+    int x, y, rotation;
+    x = b->x;
+    y = b->y;
+    rotation = b->rotation;
+
+    for(int i=0; i<SIZE; i++){
+        for(int j=0; j<SIZE; j++){
+            if(
+                b->rows[i+y]->cells[j+x] == 1 &&
+                b->pieces[b->piece].rotations[rotation][i][j] == 1
+            )
+            {
+                printf("board_set_piece tried to set a location that was already set\n");
+                return 0;
+            } else if(b->pieces[b->piece].rotations[b->rotation][i][j]){
+                b->rows[i+y]->cells[j+x] = 1;
+            }
+        }
+    }
+    b->piece = b->next_piece;
+    // TODO: Randomly generate next piece
+    b->next_piece = 1;
+
+    b->x = (NUM_COLUMNS)/2 - (SIZE)/2;
+    b->y = 0;
+
+    return 1;
 }

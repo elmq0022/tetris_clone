@@ -39,5 +39,6 @@ void board_clear_row(board* b, int idx);
 int board_is_valid_move(board* b, int new_x, int new_y, int rotation);
 int board_rotate_piece(board* b, int direction);
 int board_move_piece(board* b, int x, int y);
+int board_set_piece(board* b);
 
 #endif
