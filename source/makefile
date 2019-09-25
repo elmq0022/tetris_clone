@@ -1,6 +1,6 @@
 TARGET = main
 CC = gcc
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -I/usr/include/x86_64-linux-gnu -lallegro
 
 .PHONY: default all clean
 
@@ -16,7 +16,8 @@ HEADERS = $(wildcard *.h)
 .PRECIOUS: $(TARGET) $(OBJECTS)
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(OBJECTS) -Wall -o $@
+	$(CC) $(OBJECTS) $(CFLAGS) -o $@
+$@
 
 clean:
 	-rm -f *.o
