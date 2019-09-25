@@ -30,6 +30,32 @@ int main(){
     printf("x: %d y: %d valid: %d \n", x, y, board_is_valid_move(&b, x, y, 0));
 
     
+    while(board_move_piece(&b, LEFT, 0)){
+        printf("moving left\n");
+    }
+
+    while(board_move_piece(&b, 0, DOWN)){
+        printf("droping\n");
+    }
+
+    board_set_piece(&b);
+    board_print(b);
+    b.piece = 0;
+    
+
+    while(board_move_piece(&b, RIGHT, 0)){
+        printf("moving left\n");
+    }
+
+    while(board_move_piece(&b, 0, DOWN)){
+        printf("droping\n");
+    }
+
+    board_set_piece(&b);
+    board_print(b);
+    b.piece = 0;
+
+
     board_rotate_piece(&b, CLOCK_WISE);
     while(board_move_piece(&b, 0, DOWN)){
         printf("droping\n");
@@ -37,14 +63,31 @@ int main(){
 
     board_set_piece(&b);
     board_print(b);
-
-    board_rotate_piece(&b, CLOCK_WISE);
+    b.piece = 0;
+    
+    board_move_piece(&b, LEFT, 0);
     while(board_move_piece(&b, 0, DOWN)){
         printf("droping\n");
     }
 
     board_set_piece(&b);
     board_print(b);
+    printf("\n");
+    b.piece = 0;
+    
+    // clean up after piece is dropped
+    board_find_full_rows(&b);
+    board_print(b);
+    printf("\n");
+
+    board_clear_full_rows(&b);
+    board_print(b);
+    printf("\n");
+
+    board_move_full_rows(&b);
+    board_print(b);
+    printf("\n");
 
     return 0;
+
 }

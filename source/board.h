@@ -17,7 +17,6 @@
 
 typedef struct {
    int cells[NUM_COLUMNS];
-   int total;
 } row;
 
 typedef struct {
@@ -27,6 +26,7 @@ typedef struct {
     int x;
     int y;
     row* rows[NUM_ROWS];
+    int full_rows[NUM_ROWS];
     piece* pieces;
 } board;
 
@@ -35,6 +35,10 @@ void board_destroy(board b);
 void board_print(board b);
 void board_move_row_to_top(board* b, int idx);
 void board_clear_row(board* b, int idx);
+int board_is_full_row(board* b, int idx);
+void board_find_full_rows(board* b);
+void board_clear_full_rows(board* b);
+void board_move_full_rows(board* b);
 
 int board_is_valid_move(board* b, int new_x, int new_y, int rotation);
 int board_rotate_piece(board* b, int direction);
