@@ -39,6 +39,7 @@ int board_is_full_row(board* b, int idx);
 void board_find_full_rows(board* b);
 void board_clear_full_rows(board* b);
 void board_move_full_rows(board* b);
+int board_is_game_over(board* b);
 
 int board_is_valid_move(board* b, int new_x, int new_y, int rotation);
 int board_rotate_piece(board* b, int direction);

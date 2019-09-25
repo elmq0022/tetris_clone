@@ -125,6 +125,19 @@ void board_move_full_rows(board* b){
     }
 }
 
+// check the top few rows after a piece is set if the piece was
+// set anywhere in the padding area the game is over
+int board_is_game_over(board* b){
+    for(int i=0; i<PADDING; i++){
+        for(int j=PADDING; j< NUM_ROWS-PADDING; j++){
+            if(b->rows[i]->cells[j]){
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 int board_is_valid_move(board* b, int x, int y, int rotation){
     // check left and right of board
     if(x < 0 || NUM_COLUMNS-SIZE-1 < x){
