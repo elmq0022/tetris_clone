@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include "pieces.h"
 #define PADDING SIZE // padding for top, bottom, left, and right
-#define NUM_COLUMNS 10+PADDING+PADDING
-#define NUM_ROWS 20+PADDING+PADDING
+#define NUM_COLUMNS (10+PADDING+PADDING)
+#define NUM_ROWS (20+PADDING+PADDING)
 
 #define LEFT -1
 #define RIGHT 1

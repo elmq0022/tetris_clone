@@ -7,8 +7,9 @@
 #include <allegro5/allegro_primitives.h>
 
 #define D_WIDHT 320
-#define D_HEIGHT 200
+#define D_HEIGHT 400
 #define FPS 60
+
 
 int main(){
     if(!al_init()){
@@ -47,6 +48,8 @@ int main(){
 
     ALLEGRO_EVENT e;
 
+    board b = board_initialize();
+
     al_start_timer(timer);
     while(true){
         al_wait_for_event(queue, &e);
@@ -54,13 +57,33 @@ int main(){
         switch(e.type){
 
             case ALLEGRO_EVENT_TIMER:
-                if(al_get_timer_count(timer) % 300 == 0){
-                    printf("five seconds have passed\n");
+                // move piece down every x seconds
+                if(al_get_timer_count(timer) % 15 == 0){
+                   if(!(board_move_piece(&b, 0, DOWN))){
+                       board_set_piece(&b);
+                       board_find_full_rows(&b);
+                       board_clear_full_rows(&b);
+                       board_move_full_rows(&b);
+                   }
                 }
                 redraw = true;
                 break;
 
             case ALLEGRO_EVENT_KEY_DOWN:
+                if(e.keyboard.keycode == ALLEGRO_KEY_LEFT){
+                    board_move_piece(&b, LEFT, 0);
+                }
+                else if(e.keyboard.keycode == ALLEGRO_KEY_RIGHT){
+                    board_move_piece(&b, RIGHT, 0);
+                }
+                else if(e.keyboard.keycode == ALLEGRO_KEY_UP){
+                    board_rotate_piece(&b, COUNTER_CLOCK_WISE);
+                }
+                else if(e.keyboard.keycode == ALLEGRO_KEY_DOWN){
+                    board_rotate_piece(&b, CLOCK_WISE);
+                }
+                break;
+
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
                 done = true;
                 break;
@@ -72,20 +95,48 @@ int main(){
 
         if(redraw && al_event_queue_is_empty(queue)){
             al_clear_to_color(al_map_rgb(0, 0, 0));
-            // TODO: draw the board to the screen
-            // TODO: draw the piece to the screen
-            for(int i=PADDING; i<NUM_COLUMNS-PADDING; i++){
-                for(int j=PADDING; j<NUM_ROWS-PADDING; j++){
-                    al_draw_filled_rectangle(10*i, 10*j, 10*(i+1), 10*(j+1), al_map_rgb(255, 0, 0));
-                    al_draw_filled_rectangle(10*i+2, 10*j+2, 10*(i+1)-2, 10*(j+1)-2, al_map_rgb(255, 0, 255));
+
+            // draw the board to the screen
+            for(int y=PADDING; y<NUM_ROWS-PADDING; y++){ 
+                for(int x=PADDING; x<NUM_COLUMNS-PADDING; x++){
+                    if(b.rows[y]->cells[x]){
+                        al_draw_filled_rectangle(
+                            10*x,
+                            10*y,
+                            10*(x+1),
+                            10*(y+1),
+                            al_map_rgb(255, 0, 0)
+                        );
+                        //al_draw_filled_rectangle(10*x+2, 10*y+2, 10*(x+1)-2, 10*(y+1)-2, al_map_rgb(255, 0, 255));
+                    }
                 }
             }
+
+            // draw the piece to the screen
+            for(int y=0; y<SIZE; y++){
+                for(int x=0; x<SIZE; x++){
+                    if(b.pieces[b.piece].rotations[b.rotation][y][x]){
+                        al_draw_filled_rectangle(
+                            10*(x+b.x),
+                            10*(y+b.y),
+                            10*(x+b.x+1), 
+                            10*(y+b.y+1), 
+                            al_map_rgb(255, 0, 0)
+
+                        );
+                        //al_draw_filled_rectangle(10*(x+b.x+PADDING)+2, 10*(y+b.y+PADDING)+2, 10*(x+b.x+1+PADDING)-2, 10*(y+b.y+1+PADDING)-2, al_map_rgb(255, 0, 255));
+                    }
+                }
+            }
+
+            // draw the next piece to the screen
 
             al_flip_display();
             redraw = false;
         }
     }
-
+    
+    board_destroy(b);
     al_destroy_display(display);
     al_destroy_timer(timer);
     al_destroy_event_queue(queue);

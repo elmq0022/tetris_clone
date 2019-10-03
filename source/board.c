@@ -3,8 +3,8 @@
 #include <time.h>
 #include "pieces.h"
 #define PADDING SIZE // padding for top, bottom, left, and right
-#define NUM_COLUMNS 10+PADDING+PADDING
-#define NUM_ROWS 20+PADDING+PADDING
+#define NUM_COLUMNS (10+PADDING+PADDING)
+#define NUM_ROWS (20+PADDING+PADDING)
 
 #define LEFT -1
 #define RIGHT 1
@@ -28,8 +28,6 @@ typedef struct {
 board board_initialize(){
     board b;
 
-    b.piece = 0;
-    b.next_piece = 0;
     b.rotation = 0;
     b.x = (NUM_COLUMNS)/2 - (SIZE)/2;
     b.y = 0;
@@ -38,6 +36,8 @@ board board_initialize(){
     // initialize rand function
     time_t t; 
     srand((unsigned int) time(&t));
+    b.piece = rand() % NUM_PIECES;
+    b.next_piece = rand() % NUM_PIECES;
     
     for(int i=0; i<NUM_ROWS; i++){
         b.rows[i] = (row*) malloc(sizeof(row));
@@ -104,7 +104,6 @@ int board_is_full_row(board* b, int idx){
 
 void board_find_full_rows(board* b){
     for(int i=0; i<NUM_ROWS; i++){
-        printf("%d %d\n", i, board_is_full_row(b, i));
         b->full_rows[i] = board_is_full_row(b, i);
     }
 }
@@ -167,7 +166,7 @@ int board_is_valid_move(board* b, int x, int y, int rotation){
 
 int board_rotate_piece(board* b, int direction){
     int new_rotation;
-    new_rotation = b->rotation+direction % NUM_ROTATITIONS;
+    new_rotation = (b->rotation+direction) % NUM_ROTATITIONS;
     if(board_is_valid_move(b, b->x, b->y, new_rotation)){
         b->rotation = new_rotation;
         return 1;
@@ -209,7 +208,6 @@ int board_set_piece(board* b){
         }
     }
     b->piece = b->next_piece;
-    // TODO: Randomly generate next piece
     b->next_piece = rand() % NUM_PIECES;
 
     b->x = (NUM_COLUMNS)/2 - (SIZE)/2;
