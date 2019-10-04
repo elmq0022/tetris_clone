@@ -5,6 +5,7 @@
 #define PADDING SIZE // padding for top, bottom, left, and right
 #define NUM_COLUMNS (10+PADDING+PADDING)
 #define NUM_ROWS (20+PADDING+PADDING)
+#define ROW_PER_LEVEL 10
 
 #define LEFT -1
 #define RIGHT 1
@@ -15,6 +16,10 @@ typedef struct {
 } row;
 
 typedef struct {
+    int level;
+    int accumulated_rows;
+    int score;
+    int line_score_factor[5];
     int piece;
     int next_piece;
     int rotation;
@@ -27,6 +32,13 @@ typedef struct {
 
 board board_initialize(){
     board b;
+    b.level = 1;
+    b.score = 0;
+    b.line_score_factor[0] = 0;
+    b.line_score_factor[1] = 40;
+    b.line_score_factor[2] = 100;
+    b.line_score_factor[3] = 300;
+    b.line_score_factor[4] = 1200;
 
     b.rotation = 0;
     b.x = (NUM_COLUMNS)/2 - (SIZE)/2;
@@ -38,6 +50,7 @@ board board_initialize(){
     srand((unsigned int) time(&t));
     b.piece = rand() % NUM_PIECES;
     b.next_piece = rand() % NUM_PIECES;
+    
     
     for(int i=0; i<NUM_ROWS; i++){
         b.rows[i] = (row*) malloc(sizeof(row));
@@ -114,6 +127,27 @@ void board_clear_full_rows(board* b){
             board_clear_row(b, i);
         }
     }
+}
+
+int board_update_score_and_level(board* b){
+    int total_rows=0;
+    for(int i=0; i<NUM_ROWS; i++){
+        if(b->full_rows[i]){
+            total_rows++;
+        }
+    }
+
+    if(total_rows>4){
+        printf("calculated total rows of %d when only 4 are possible\n", total_rows);
+        return 0;
+    }
+
+    b->score += (b->line_score_factor[total_rows])*(b->level+1);
+    b->accumulated_rows += total_rows;
+    b->level += b->accumulated_rows / 10;
+    b->accumulated_rows = b->accumulated_rows % 10;
+
+    return 1;
 }
 
 void board_move_full_rows(board* b){
