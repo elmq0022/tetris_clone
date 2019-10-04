@@ -124,12 +124,24 @@ int main(){
                             al_map_rgb(255, 0, 0)
 
                         );
-                        //al_draw_filled_rectangle(10*(x+b.x+PADDING)+2, 10*(y+b.y+PADDING)+2, 10*(x+b.x+1+PADDING)-2, 10*(y+b.y+1+PADDING)-2, al_map_rgb(255, 0, 255));
                     }
                 }
             }
 
             // draw the next piece to the screen
+            for(int y=0; y<SIZE; y++){
+                for(int x=0; x<SIZE; x++){
+                    if(b.pieces[b.next_piece].rotations[0][y][x]){
+                        al_draw_filled_rectangle(
+                            10*(x) + 200,
+                            10*(y) + 25,
+                            10*(x+1) + 200, 
+                            10*(y+1) + 25, 
+                            al_map_rgb(255, 0, 0)
+                        );
+                    }
+                }
+            }
 
             al_flip_display();
             redraw = false;
