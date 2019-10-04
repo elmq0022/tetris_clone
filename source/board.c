@@ -142,7 +142,7 @@ int board_update_score_and_level(board* b){
         return 0;
     }
 
-    b->score += (b->line_score_factor[total_rows])*(b->level+1);
+    b->score += (b->line_score_factor[total_rows])*(b->level);
     b->accumulated_rows += total_rows;
     b->level += b->accumulated_rows / 10;
     b->accumulated_rows = b->accumulated_rows % 10;
@@ -174,13 +174,11 @@ int board_is_game_over(board* b){
 int board_is_valid_move(board* b, int x, int y, int rotation){
     // check left and right of board
     if(x < 0 || NUM_COLUMNS-SIZE-1 < x){
-        printf("failed for x size \n");
         return 0;
     }
 
     // check up and down of board
     if(y < 0 || NUM_ROWS-SIZE-1 < y){
-        printf("failed for y size \n");
         return 0;
     }
 
@@ -189,7 +187,7 @@ int board_is_valid_move(board* b, int x, int y, int rotation){
         for(int j=0; j < SIZE; j++){
             if(b->rows[i+y]->cells[j+x] && 
                b->pieces[b->piece].rotations[rotation][i][j]
-            ){ printf("failed for intersecting with the board \n");
+            ){
                 return 0;
             }
         }

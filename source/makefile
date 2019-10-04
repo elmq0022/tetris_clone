@@ -1,7 +1,6 @@
 TARGET = main
 CC = gcc
-CFLAGS = -g -Wall -I/usr/include/x86_64-linux-gnu -lallegro_primitives -lallegro
-
+CFLAGS = -g -Wall -I/usr/include/x86_64-linux-gnu -lallegro_primitives -lallegro_font -lallegro
 
 .PHONY: default all clean
 

@@ -5,6 +5,7 @@
 
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_font.h>
 
 #define D_WIDHT 320
 #define D_HEIGHT 400
@@ -39,6 +40,11 @@ int main(){
         printf("failed to create display");
     }
 
+    ALLEGRO_FONT* font;
+    if(!(font=al_create_builtin_font())){
+        printf("failed to initialize allegro font");
+    }
+
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_display_event_source(display));
     al_register_event_source(queue, al_get_timer_event_source(timer));
@@ -64,6 +70,7 @@ int main(){
                        board_find_full_rows(&b);
                        board_clear_full_rows(&b);
                        board_move_full_rows(&b);
+                       board_update_score_and_level(&b);
                    }
                 }
                 redraw = true;
@@ -143,6 +150,10 @@ int main(){
                 }
             }
 
+            // draw the score and the level to the screen
+            al_draw_textf(font, al_map_rgb(255, 255, 255), 200, 100, 0, "SCORE: %d", b.score);
+            al_draw_textf(font, al_map_rgb(255, 255, 255), 200, 125, 0, "LEVEL: %d", b.level);
+            
             al_flip_display();
             redraw = false;
         }
