@@ -34,6 +34,7 @@ board board_initialize(){
     board b;
     b.level = 1;
     b.score = 0;
+    b.accumulated_rows = 0;
     b.line_score_factor[0] = 0;
     b.line_score_factor[1] = 40;
     b.line_score_factor[2] = 100;
@@ -130,6 +131,7 @@ void board_clear_full_rows(board* b){
 }
 
 int board_update_score_and_level(board* b){
+
     int total_rows=0;
     for(int i=0; i<NUM_ROWS; i++){
         if(b->full_rows[i]){
