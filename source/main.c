@@ -1,70 +1,31 @@
 #include <stdio.h>
+#include <allegro5/allegro_primitives.h>
 
+#include "load_game_env.h"
 #include "board.h"
 #include "pieces.h"
 
-#include <allegro5/allegro5.h>
-#include <allegro5/allegro_primitives.h>
-#include <allegro5/allegro_font.h>
-
-#define D_WIDHT 320
-#define D_HEIGHT 400
-#define FPS 60
-
 
 int main(){
-    if(!al_init()){
-        printf("failed to initialize allegro");
-    }
 
-    if(!al_install_keyboard()){
-        printf("failed to initialize keyboard");
-    }
-
-    if(!al_init_primitives_addon()){
-        printf("failed to initialize primatives addon\n");
-    }
-
-    ALLEGRO_TIMER* timer;
-    if(!(timer=al_create_timer(1.0/FPS))){
-        printf("failed to create timer");
-    }
-
-    ALLEGRO_EVENT_QUEUE* queue;
-    if(!(queue=al_create_event_queue())){
-        printf("failed to create event queue");
-    }
-
-    ALLEGRO_DISPLAY* display;
-    if(!(display=al_create_display(D_WIDHT, D_HEIGHT))){
-        printf("failed to create display");
-    }
-
-    ALLEGRO_FONT* font;
-    if(!(font=al_create_builtin_font())){
-        printf("failed to initialize allegro font");
-    }
-
-    al_register_event_source(queue, al_get_keyboard_event_source());
-    al_register_event_source(queue, al_get_display_event_source(display));
-    al_register_event_source(queue, al_get_timer_event_source(timer));
+    env game_env = load_game_env(); 
 
     bool redraw = true;
     bool done = false;
 
-    ALLEGRO_EVENT e;
+    ALLEGRO_EVENT event;
 
     board b = board_initialize();
 
-    al_start_timer(timer);
+    al_start_timer(game_env.timer);
     while(true){
-        al_wait_for_event(queue, &e);
+        al_wait_for_event(game_env.queue, &event);
         
-        switch(e.type){
+        switch(event.type){
 
             case ALLEGRO_EVENT_TIMER:
                 // move piece down every x seconds
-                if(al_get_timer_count(timer) % 15 == 0){
+                if(al_get_timer_count(game_env.timer) % 15 == 0){
                    if(!(board_move_piece(&b, 0, DOWN))){
                        board_set_piece(&b);
                        board_find_full_rows(&b);
@@ -77,16 +38,16 @@ int main(){
                 break;
 
             case ALLEGRO_EVENT_KEY_DOWN:
-                if(e.keyboard.keycode == ALLEGRO_KEY_LEFT){
+                if(event.keyboard.keycode == ALLEGRO_KEY_LEFT){
                     board_move_piece(&b, LEFT, 0);
                 }
-                else if(e.keyboard.keycode == ALLEGRO_KEY_RIGHT){
+                else if(event.keyboard.keycode == ALLEGRO_KEY_RIGHT){
                     board_move_piece(&b, RIGHT, 0);
                 }
-                else if(e.keyboard.keycode == ALLEGRO_KEY_UP){
+                else if(event.keyboard.keycode == ALLEGRO_KEY_UP){
                     board_rotate_piece(&b, COUNTER_CLOCK_WISE);
                 }
-                else if(e.keyboard.keycode == ALLEGRO_KEY_DOWN){
+                else if(event.keyboard.keycode == ALLEGRO_KEY_DOWN){
                     board_rotate_piece(&b, CLOCK_WISE);
                 }
                 break;
@@ -100,7 +61,7 @@ int main(){
             break;
         }
 
-        if(redraw && al_event_queue_is_empty(queue)){
+        if(redraw && al_event_queue_is_empty(game_env.queue)){
             al_clear_to_color(al_map_rgb(0, 0, 0));
 
             // draw the board to the screen
@@ -151,18 +112,16 @@ int main(){
             }
 
             // draw the score and the level to the screen
-            al_draw_textf(font, al_map_rgb(255, 255, 255), 200, 100, 0, "SCORE: %d", b.score);
-            al_draw_textf(font, al_map_rgb(255, 255, 255), 200, 125, 0, "LEVEL: %d", b.level);
+            al_draw_textf(game_env.font, al_map_rgb(255, 255, 255), 200, 100, 0, "SCORE: %d", b.score);
+            al_draw_textf(game_env.font, al_map_rgb(255, 255, 255), 200, 125, 0, "LEVEL: %d", b.level);
             
             al_flip_display();
             redraw = false;
         }
     }
     
+    unload_game_env(game_env);
     board_destroy(b);
-    al_destroy_display(display);
-    al_destroy_timer(timer);
-    al_destroy_event_queue(queue);
 
     return 0;
 }
