@@ -1,3 +1,6 @@
+#ifndef LOAD_GAME_ENV_H
+#define LOAD_GAME_ENV_H
+
 #include <stdio.h>
 
 #include <allegro5/allegro5.h>
@@ -17,3 +20,5 @@ typedef struct {
 
 env load_game_env();
 void unload_game_env(env e);
+
+#endif
