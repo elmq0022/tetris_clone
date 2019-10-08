@@ -4,19 +4,34 @@
 #include <allegro5/allegro_primitives.h>
 #include <allegro5/allegro_font.h>
 
+#include "board.h"
+
 #define D_WIDHT 320
 #define D_HEIGHT 400
 #define FPS 60
 
+typedef enum {
+    START_SCREEN,
+    PLAY,
+    GAMEOVER
+} states;
+
 typedef struct {
     ALLEGRO_TIMER* timer;
     ALLEGRO_EVENT_QUEUE* queue;
+    ALLEGRO_EVENT event;
     ALLEGRO_DISPLAY* display;
     ALLEGRO_FONT* font;
+    states active_state;
+    bool done;
+    board* b;
+    
 } env;
 
 env load_game_env(){
     env e;
+    e.active_state = PLAY;
+    e.done = false;
 
     if(!al_init()){
         printf("failed to initialize allegro");
@@ -57,9 +72,9 @@ env load_game_env(){
     return e;
 }
 
-void unload_game_env(env e){
-    al_destroy_display(e.display);
-    al_destroy_timer(e.timer);
-    al_destroy_event_queue(e.queue);
-    al_destroy_font(e.font);
+void unload_game_env(env* e){
+    al_destroy_display(e->display);
+    al_destroy_timer(e->timer);
+    al_destroy_event_queue(e->queue);
+    al_destroy_font(e->font);
 }

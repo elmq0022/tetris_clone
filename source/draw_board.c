@@ -2,7 +2,9 @@
 #include "load_game_env.h"
 #include <allegro5/allegro_primitives.h>
 
-void draw_board(env* game_env, board* b){
+void draw_board(env* game_env){
+        board* b = game_env->b;
+
         // draw the board to the screen
         for(int y=PADDING; y<NUM_ROWS-PADDING; y++){ 
             for(int x=PADDING; x<NUM_COLUMNS-PADDING; x++){

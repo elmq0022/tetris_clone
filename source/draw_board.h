@@ -5,6 +5,6 @@
 #include "load_game_env.h"
 #include <allegro5/allegro_primitives.h>
 
-void draw_board(env* game_env, board* b);
+void draw_board(env* game_env);
 
 #endif
