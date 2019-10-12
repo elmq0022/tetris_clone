@@ -27,6 +27,7 @@ typedef struct {
     ALLEGRO_FONT* font;
     states active_state;
     bool done;
+    bool redraw;
     board* b;
 } env;
 

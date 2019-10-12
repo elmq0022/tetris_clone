@@ -4,9 +4,7 @@
 #include "draw_board.h"
 
 
-void play(env* _env){
-    bool redraw = true;
-
+void play_update(env* _env){
     switch(_env->event.type){
 
         case ALLEGRO_EVENT_TIMER:
@@ -22,7 +20,7 @@ void play(env* _env){
                    board_update_score_and_level(_env->b);
                }
             }
-            redraw = true;
+            _env->redraw = true;
             break;
 
         case ALLEGRO_EVENT_KEY_DOWN:
@@ -51,10 +49,8 @@ void play(env* _env){
             break;
     } 
 
-    if(redraw && al_event_queue_is_empty(_env->queue)){
-        al_clear_to_color(al_map_rgb(0, 0, 0));
-        draw_board(_env); 
-        al_flip_display();
-        redraw = false;
-    }
+}
+
+void play_draw(env* _env){
+    draw_board(_env); 
 }

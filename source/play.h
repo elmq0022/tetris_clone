@@ -6,6 +6,7 @@
 #include "board.h"
 #include "draw_board.h"
 
-void play(env* _env);
+void play_update(env* _env);
+void play_draw(env* _env);
 
 #endif

@@ -24,6 +24,7 @@ typedef struct {
     ALLEGRO_FONT* font;
     states active_state;
     bool done;
+    bool redraw;
     board* b;
     
 } env;
@@ -32,6 +33,7 @@ env load_game_env(){
     env e;
     e.active_state = PLAY;
     e.done = false;
+    e.redraw = false;
 
     if(!al_init()){
         printf("failed to initialize allegro");
