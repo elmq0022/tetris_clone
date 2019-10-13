@@ -13,6 +13,9 @@
 #define D_HEIGHT 400
 #define FPS 60
 
+#define KEY_SEEN 1
+#define KEY_RELEASED 2
+
 typedef enum {
     START_SCREEN,
     PLAY,
@@ -29,6 +32,7 @@ typedef struct {
     bool done;
     bool redraw;
     board* b;
+    unsigned char key[ALLEGRO_KEY_MAX];
 } env;
 
 env load_game_env();
