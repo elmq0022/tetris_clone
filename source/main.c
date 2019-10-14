@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <allegro5/allegro_primitives.h>
 
-#include "load_game_env.h"
-#include "draw_board.h"
 #include "board.h"
-#include "pieces.h"
-#include "play.h"
+#include "draw_board.h"
 #include "gameover.h"
+#include "load_game_env.h"
+//#include "pieces.h"
+#include "play.h"
+#include "start_screen.h"
 
 
 int main(){
@@ -25,6 +26,10 @@ int main(){
         al_wait_for_event(env_ptr->queue, &(env_ptr->event));
 
         switch(env_ptr->active_state){
+            case START_SCREEN:
+                update = (&update_start_screen);
+                draw = (&draw_start_screen);
+                break;
             case PLAY:
                 update = (&play_update);
                 draw = (&play_draw);

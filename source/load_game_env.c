@@ -35,7 +35,7 @@ typedef struct {
 
 env load_game_env(){
     env e;
-    e.active_state = PLAY;
+    e.active_state = START_SCREEN;
     e.done = false;
     e.redraw = false;
     memset(e.key, 0, sizeof(e.key)); 
