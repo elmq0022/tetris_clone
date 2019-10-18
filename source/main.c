@@ -5,12 +5,28 @@
 #include "draw_board.h"
 #include "gameover.h"
 #include "load_game_env.h"
-//#include "pieces.h"
 #include "play.h"
 #include "start_screen.h"
 
+#include "high_score.h"
 
 int main(){
+    int arr[10];
+    high_score_load(arr, 10);
+    for(int i=0; i<10; i++){
+        printf("%d\n", arr[i]);
+    }
+
+    high_score_add_score(arr, 10, 20); 
+    for(int i=0; i<10; i++){
+        printf("%d\n", arr[i]);
+    }
+
+    high_score_write(arr, 10);
+    high_score_load(arr, 10);
+    for(int i=0; i<10; i++){
+        printf("%d\n", arr[i]);
+    }
 
     env _env = load_game_env();
     env* env_ptr = &_env;
@@ -35,6 +51,10 @@ int main(){
                 draw = (&play_draw);
                 break;
             case GAMEOVER:
+                update = (&update_gameover);
+                draw = (&draw_gameover);
+                break;
+            case HIGH_SCORE:
                 update = (&update_gameover);
                 draw = (&draw_gameover);
                 break;

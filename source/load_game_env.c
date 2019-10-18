@@ -5,6 +5,7 @@
 #include <allegro5/allegro_font.h>
 
 #include "board.h"
+#include "high_score.h"
 
 #define D_WIDHT 320
 #define D_HEIGHT 400
@@ -16,7 +17,8 @@
 typedef enum {
     START_SCREEN,
     PLAY,
-    GAMEOVER
+    GAMEOVER,
+    HIGH_SCORE
 } states;
 
 typedef struct {
@@ -29,8 +31,8 @@ typedef struct {
     bool done;
     bool redraw;
     board* b;
-    unsigned char key[ALLEGRO_KEY_MAX]; 
-    
+    unsigned char key[ALLEGRO_KEY_MAX];
+    int high_scores[NUM_HIGH_SCORES];
 } env;
 
 env load_game_env(){
@@ -39,6 +41,7 @@ env load_game_env(){
     e.done = false;
     e.redraw = false;
     memset(e.key, 0, sizeof(e.key)); 
+    e.high_scores;
 
     if(!al_init()){
         printf("failed to initialize allegro");

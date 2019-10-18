@@ -38,7 +38,8 @@ void play_update(env* _env){
             while(board_move_piece(_env->b, 0, DOWN)){
                 //drop the piece
             }
-            _env->key[ALLEGRO_KEY_SPACE] &= KEY_RELEASED; }
+            _env->key[ALLEGRO_KEY_SPACE] &= KEY_RELEASED; 
+        }
     } 
 }
 

@@ -19,7 +19,8 @@
 typedef enum {
     START_SCREEN,
     PLAY,
-    GAMEOVER
+    GAMEOVER,
+    HIGH_SCORE
 } states;
 
 typedef struct {

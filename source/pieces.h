@@ -1,5 +1,6 @@
 #ifndef PIECIES_H
 #define PIECIES_H
+
 #define SIZE 5
 #define NUM_PIECES 7
 #define NUM_ROTATITIONS 4
