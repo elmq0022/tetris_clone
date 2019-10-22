@@ -5,6 +5,10 @@ void update_start_screen(env* _env){
     if(_env->key[ALLEGRO_KEY_ENTER]){
         _env->active_state = PLAY;
     }
+    if(_env->key[ALLEGRO_KEY_SPACE]){
+        _env->active_state = HIGH_SCORE;
+        memset(_env->key, 0, sizeof(_env->key));
+    }
 }
 
 void draw_start_screen(env* _env){
@@ -17,6 +21,8 @@ void draw_start_screen(env* _env){
             D_WIDHT-10,
             10,
             ALLEGRO_ALIGN_CENTER,
-            "Welcome to Falling Blocks\nPress ENTER to PLAY"
+            "Welcome to TETROMINOES\n"
+            "Press ENTER to PLAY\n"
+            "Press SPACE-BAR for the HIGH SCORES"
     );
 }

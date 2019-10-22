@@ -2,7 +2,7 @@
 #define HIGH_SCORE_SCENE_H
 #include "load_game_env.h"
 
-void high_score_update(env* _env);
-void high_score_draw(env* _env);
+void update_high_score(env* _env);
+void draw_high_score(env* _env);
 
 #endif

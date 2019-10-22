@@ -8,6 +8,7 @@
 #include <allegro5/allegro_font.h>
 
 #include "board.h"
+#include "high_score.h"
 
 #define D_WIDHT 320
 #define D_HEIGHT 400
@@ -34,6 +35,7 @@ typedef struct {
     bool redraw;
     board* b;
     unsigned char key[ALLEGRO_KEY_MAX];
+    int high_scores[NUM_HIGH_SCORES];
 } env;
 
 env load_game_env();

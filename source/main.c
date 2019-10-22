@@ -9,8 +9,10 @@
 #include "start_screen.h"
 
 #include "high_score.h"
+#include "high_score_scene.h"
 
 int main(){
+    // TODO: move this somwhere else:W
     int arr[10];
     high_score_load(arr, 10);
     for(int i=0; i<10; i++){
@@ -27,6 +29,7 @@ int main(){
     for(int i=0; i<10; i++){
         printf("%d\n", arr[i]);
     }
+    // end TODO
 
     env _env = load_game_env();
     env* env_ptr = &_env;
@@ -55,8 +58,8 @@ int main(){
                 draw = (&draw_gameover);
                 break;
             case HIGH_SCORE:
-                update = (&update_gameover);
-                draw = (&draw_gameover);
+                update = (&update_high_score);
+                draw = (&draw_high_score);
                 break;
             default:
                 printf("no state set\n");

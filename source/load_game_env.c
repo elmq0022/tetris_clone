@@ -41,7 +41,7 @@ env load_game_env(){
     e.done = false;
     e.redraw = false;
     memset(e.key, 0, sizeof(e.key)); 
-    e.high_scores;
+    high_score_load(e.high_scores, 10);
 
     if(!al_init()){
         printf("failed to initialize allegro");
